@@ -12,7 +12,9 @@ export const API_CONFIG = {
   API_BASE_URL:
     import.meta.env.VITE_API_BASE_URL ||
     (typeof window !== 'undefined'
-      ? `${window.location.protocol}//${window.location.hostname}:8000/api/v1`
+      ? (window.location.port === '5173' || window.location.port === '3000'
+          ? `${window.location.protocol}//${window.location.hostname}:8000/api/v1`
+          : `${window.location.origin}/api/v1`)
       : 'http://localhost:8000/api/v1'),
   AZURE_OPENAI_ENDPOINT: import.meta.env.VITE_AZURE_OPENAI_ENDPOINT || '',
   
