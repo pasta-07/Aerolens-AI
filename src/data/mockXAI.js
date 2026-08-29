@@ -1,0 +1,105 @@
+/**
+ * AeroLens AI - Explainable AI (XAI) Model Contributions
+ * SHAP-style factor importance & scientific model attribution
+ */
+
+export const mockXAIFactors = [
+  {
+    id: 'factor-no2',
+    name: 'Tropospheric NO₂ Density',
+    category: 'Chemical Precursor',
+    value: '78.4 µg/m³',
+    baseline: '32.0 µg/m³',
+    contribution: +42.5, // AQI points impact
+    impactType: 'aggravator', // 'aggravator' | 'mitigator'
+    percentShare: 29.4,
+    description: 'High vehicular & industrial combustion byproduct directly accelerates secondary PM2.5 formation.',
+    color: '#EF4444',
+  },
+  {
+    id: 'factor-hcho',
+    name: 'TROPOMI HCHO Anomaly',
+    category: 'Satellite Anomaly',
+    value: '26.8 × 10¹⁵ molec/cm²',
+    baseline: '9.4 × 10¹⁵ molec/cm²',
+    contribution: +38.2,
+    impactType: 'aggravator',
+    percentShare: 26.5,
+    description: '185% above seasonal baseline, indicating active volatile organic compound oxidation and VOC-limited regime.',
+    color: '#F97316',
+  },
+  {
+    id: 'factor-wind',
+    name: 'Wind Stagnation (Low Velocity)',
+    category: 'Meteorology',
+    value: '3.2 km/h (Calm)',
+    baseline: '11.5 km/h',
+    contribution: +29.0,
+    impactType: 'aggravator',
+    percentShare: 20.1,
+    description: 'Severe ventilation deficit severely restricts horizontal advection of accumulated pollution plumes.',
+    color: '#F59E0B',
+  },
+  {
+    id: 'factor-biomass',
+    name: 'Thermal / Biomass Smoke Index',
+    category: 'Satellite Fire Radiative Power',
+    value: 'FRP 48.2 MW',
+    baseline: 'FRP 10.0 MW',
+    contribution: +18.4,
+    impactType: 'aggravator',
+    percentShare: 12.7,
+    description: 'Upwind agricultural stubble pyrogenic emissions entering regional airshed.',
+    color: '#EAB308',
+  },
+  {
+    id: 'factor-humidity',
+    name: 'Relative Humidity',
+    category: 'Meteorology',
+    value: '68%',
+    baseline: '45%',
+    contribution: +14.1,
+    impactType: 'aggravator',
+    percentShare: 9.8,
+    description: 'Elevated moisture enhances hygroscopic aerosol particle growth and nitrate partitioning.',
+    color: '#38BDF8',
+  },
+  {
+    id: 'factor-temperature',
+    name: 'Night Inversion Temperature',
+    category: 'Thermal Gradient',
+    value: '31.4 °C',
+    baseline: '27.0 °C',
+    contribution: +8.2,
+    impactType: 'aggravator',
+    percentShare: 5.7,
+    description: 'Ground radiation cooling induces nocturnal temperature inversion trapping particulates.',
+    color: '#A855F7',
+  },
+  {
+    id: 'factor-pbl',
+    name: 'Planetary Boundary Layer Depth',
+    category: 'Atmospheric Physics',
+    value: '420 m',
+    baseline: '1100 m',
+    contribution: -12.4,
+    impactType: 'mitigator',
+    percentShare: 8.6,
+    description: 'Residual afternoon mixing volume provides modest remaining air column dilution.',
+    color: '#10B981',
+  },
+];
+
+export const mockXAIExplanation = {
+  title: 'Why did the AI predict this AQI escalation?',
+  summary: 'The predicted AQI surge from 287 to 342 is primarily driven by elevated tropospheric NO₂ (+42.5 pts) and an intense HCHO anomaly (+38.2 pts), compounded by stagnant nocturnal wind conditions (3.2 km/h) that prevent pollutant dispersion.',
+  modelDetails: {
+    architecture: 'Dual-Branch Spatial-Temporal Hybrid: ConvLSTM-3D + Gradient Boosted Trees (XGBoost Ensemble)',
+    satelliteInputs: ['Sentinel-5P TROPOMI (HCHO L2, NO2 L2, UVAI)', 'MODIS/VIIRS Fire Radiative Power (FRP)'],
+    groundInputs: ['CPCB CAAQMS Real-Time Sensor Telemetry (PM2.5, PM10, SO2, CO, O3)'],
+    meteorologicalInputs: ['ECMWF ERA5 / IMD GFS Weather Model (Wind Vectors, PBL, Temp, RH)'],
+    trainingDataset: '4.8 Million Geocoded Observation Vectors across 420 Indian Monitoring Stations (2021-2026)',
+    validationR2: '0.924 Test R² (RMSE: 14.8 AQI Index Points)',
+  },
+  disclaimer: 'Scientific Notice: AeroLens AI predictions and feature contributions represent statistical attribution models derived from satellite observations and meteorological physics. Anomaly detections identify spatial precursors and correlation patterns rather than judicial or legal culpability of specific entities.',
+};
